@@ -1,0 +1,3279 @@
+<?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<p>Lorem ipsum dolor sit amet</p><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<p>Lorem ipsum dolor sit amet</p><p>Lorem ipsum dolor sit amet</p><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<p>Lorem ipsum dolor sit amet</p><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<p>Lorem ipsum dolor sit amet</p><p>Lorem ipsum dolor sit amet</p><table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'><th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th><tr><td style='border:2px solid darkcyan;padding:10px;'>introduction<br>inclusion<br>variable<br>structures<br>fonctions<br>tableaux<br>donnee<br>sessions<br></td><td style='border:2px solid darkcyan;padding:10px;'>internationalisation interface<br>espaces de nom<br></td><td style='border:2px solid darkcyan;padding:10px;'>base<br>Cookies<br>gestion fichier<br>envoie mail<br>temporisation de sortie<br></td></tr></table><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<p>Lorem ipsum dolor sit amet</p><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<p>Lorem ipsum dolor sit amet</p><p>Lorem ipsum dolor sit amet</p><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<p>Lorem ipsum dolor sit amet</p><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?><?php
+$list = array(
+	array('03','01','introduction','Michael','acquis'), 
+	array('03','02','base','Michael','partiel'), 
+	array('03','03','inclusion','Michael','acquis'), 
+	array('03','04','variable','Michael','acquis'),
+    array('03','05','structures','Michael','acquis'), 
+    array('03','06','fonctions','Michael','acquis'), 
+    array('03','07','tableaux','Michael','acquis'), 
+    array('03','08','donnee','Michael','acquis'), 
+    array('03','09','sessions','Michael','acquis'), 
+    array('03','09Bis','Cookies','Michael','partiel'), 
+    array('03','10','gestion fichier','Michael','partiel'), 
+    array('03','11','envoie mail','Michael','partiel'), 
+    array('03','12','temporisation de sortie','Michael','partiel'), 
+    array('03','13','internationalisation interface','Michael','non acquis'), 
+    array('03','14','espaces de nom','Michael','non acquis')
+	);
+
+$fp = fopen("file.csv",'w+');
+foreach ($list as $fields) {
+	fputcsv($fp, $fields);
+}
+
+fclose($fp);
+
+//print_r($list);
+
+$cptNonAcquis=0;$cptPartiel=0;$cptAcquis=0;
+$NonAcquis=array();$Partiel =array(); $Acquis = array();
+
+
+foreach ($list as $key => $value) {
+	foreach ($value as $key1 => $value1) {
+		
+	//echo "<br>". $value1;
+	if ($value1 == "non acquis")
+		{$cptNonAcquis++;array_push($NonAcquis,$value[2] );}
+	if ($value1 == "partiel")
+		{$cptPartiel++;array_push($Partiel,$value[2] );}
+	if ($value1 == "acquis")
+		{$cptAcquis++;array_push($Acquis,$value[2] );}
+	}
+}
+
+echo "<br> Acquis : $cptAcquis <br>";
+foreach ($Acquis as $key => $value){ echo $value ." / ";}
+echo "<br> Non acquis : $cptNonAcquis  <br>";
+foreach ($NonAcquis as $key => $value){ echo $value ." / ";}
+echo "<br> Partiel : $cptPartiel  <br>";
+foreach ($Partiel as $key => $value){ echo $value ." / ";}
+$html="";
+
+
+echo "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+$html .= "<table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'>";
+echo "	<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+$html .= "<th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th>";
+echo "<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .="<tr><td style='border:2px solid darkcyan;padding:10px;'>";
+
+foreach ($Acquis as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($NonAcquis as $key => $value){ echo $value ."<br>";$html .= $value."<br>";}
+echo "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+$html .= "</td><td style='border:2px solid darkcyan;padding:10px;'>";
+foreach ($Partiel as $key => $value){ echo $value ."<br>"; $html .= $value."<br>";}
+
+echo "</td></tr></table>";
+$html .= "</td></tr></table>";
+
+$cacheFic = 'tamponCsv.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+//$dateExpire = date("F j, Y, g:i a");   
+//echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo $html; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    //echo $tampon; // On affiche le contenu du tampon de sortie.
+
+
+    //voir ob_get_flush :   Vide le tampon, le retourne en tant que chaîne et stoppe la temporisation
+endif;
+
+?>03,01,introduction,Michael,acquis
+03,02,base,Michael,partiel
+03,03,inclusion,Michael,acquis
+03,04,variable,Michael,acquis
+03,05,structures,Michael,acquis
+03,06,fonctions,Michael,acquis
+03,07,tableaux,Michael,acquis
+03,08,donnee,Michael,acquis
+03,09,sessions,Michael,acquis
+03,09Bis,Cookies,Michael,partiel
+03,10,"gestion fichier",Michael,partiel
+03,11,"envoie mail",Michael,partiel
+03,12,"temporisation de sortie",Michael,partiel
+03,13,"internationalisation interface",Michael,"non acquis"
+03,14,"espaces de nom",Michael,"non acquis"
+<p>Lorem ipsum dolor sit amet</p><p>Lorem ipsum dolor sit amet</p><table style='color:darkcyan; margin:30px; border:2px solid darkcyan;border-collapse: collapse;'><th style='border:2px solid darkcyan;'> Acquis </th><th style='border:2px solid darkcyan;'> Non acquis </th><th style='border:2px solid darkcyan;'> Partiel </th><tr><td style='border:2px solid darkcyan;padding:10px;'>introduction<br>inclusion<br>variable<br>structures<br>fonctions<br>tableaux<br>donnee<br>sessions<br></td><td style='border:2px solid darkcyan;padding:10px;'>internationalisation interface<br>espaces de nom<br></td><td style='border:2px solid darkcyan;padding:10px;'>base<br>Cookies<br>gestion fichier<br>envoie mail<br>temporisation de sortie<br></td></tr></table><?php
+ob_start(); // On initialise le tampon de sortie.
+echo '<p>Lorem ipsum dolor sit amet</p>'; // On ajoute une balise HTML et du texte au tampon de sortie.
+$tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+ob_end_clean(); // On ferme le tampon de sortie et le vide.
+file_put_contents( 'tampon.html', $tampon ); // On crée un fichier "tampon.html" dans un sous-dossier pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+
+readfile( 'tampon.html' ); // On lit le fichier "tampon.html" et affiche son contenu.
+
+
+
+
+$cacheFic = 'tampon1.html'; // On crée une variable qui va contenir le chemin d'accès au fichier de cache.
+$expire = time()-60; // On va déterminer un délai d'expiration d'une heure : la fonction "time()" nous retourne l'heure courante à l'instant T au format timestamp (http://php.net/manual/fr/function.time.php).
+
+$dateExpire = date("F j, Y, g:i a");   
+echo $dateExpire."<br>";
+
+if( file_exists( $cacheFic ) && filemtime( $cacheFic ) > $expire ) : // Si le fichier existe ET si la date de création du fichier est supérieure à la date d'expiration (soit maintenant moins soixante secondes),
+    readfile( $cacheFic ); // On utilise le fichier de cache.
+else : // Sinon,
+    ob_start(); // On initialise une temporisation de sortie.
+
+    echo '<p>Lorem ipsum dolor sit amet</p>'; // On ajoute une balise HTML et du texte au tampon de sortie.
+
+    $tampon = ob_get_contents(); // On stocke le résultat des instructions précéentes dans une variable.
+    ob_end_clean(); // On ferme le tampon de sortie et le vide.
+    file_put_contents( $cacheFic, $tampon ); // On crée un fichier de cache pour y écrire le contenu de la variable. Si le fichier existe déjà, la fonction le remplacera.
+    echo $tampon; // On affiche le contenu du tampon de sortie.
+endif;
+?>
